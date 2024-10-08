@@ -1,0 +1,152 @@
+<!-- /**
+ * This code creates a dynamic invoice form that allows users to add and remove items, and submit the invoice.
+ * The form includes input fields for item name, quantity, and price, as well as buttons to add new items and submit the invoice.
+ * The `addItem()` function creates a new item container with input fields and a remove button.
+ * The `removeItem()` function removes the item container when the remove button is clicked.
+ * The `submitInvoice()` function collects the values from all the item containers and logs them to the console.
+ */ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Invoice</title>
+    <style>
+        body{
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h2{
+            text-align: center;
+            margin-top: 30px;
+            color: #333;
+        }
+        .invoice-container{
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .item-container{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }   
+        .item-container input {
+            width: 30%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+        .item-container input:focus{
+            border-color: #007bff;
+            outline: none;
+        }
+        .btn-container{
+            text-align: center;
+            margin-top: 20px;
+        }
+        button{
+            padding: 10px 20px;
+            color: white;
+            background-color:#007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-remove{
+                background-color: red !important;
+        }
+    </style>
+  </head>
+  <body>
+    <h2>Invoice From</h2>
+    <div class="invoice-container">
+      <div id="invoiceform">
+
+        <div class="item-container">
+          <input type="text" placeholder="Item name" class="item-name" />
+          <input type="number" placeholder="Quantity"  class="item-quantity"/>
+          <input type="number" placeholder="price" class="item-price"/>
+          <button class="btn-remove" onclick="removeItem(this)">remove</button>
+        </div>
+        
+      </div>
+      <div class="btn-container">
+        <button onclick="addItem()">Add Item</button>
+        <button onclick="submitInvoice()">submit Invoice</button>
+      </div>
+    </div>
+    <script>
+        // Function to add a new item input section to the invoice form
+        function addItem(){
+            let invoiceform = document.getElementById("invoiceform");
+
+            // console.log(invoiceform)
+            let newItem = document.createElement("div");
+            // console.log(newItem);
+            newItem.classList.add("item-container");
+
+           
+
+            // Creates a new item input element with associated fields and a remove button
+            newItem.innerHTML = `
+                <input type="text" placeholder="Item name" class="item-name" />
+          <input type="number" placeholder="Quantity"  class="item-quantity"/>
+          <input type="number" placeholder="price" class="item-price"/>
+           <button class="btn-remove" onclick="removeItem(this)">remove</button>
+            `
+            invoiceform.appendChild(newItem)
+            // console.log(newItem)
+        }
+
+
+        // Function to remove an item input section from the invoice form
+        function removeItem(button){
+            let itemContainer = button.parentElement;
+            console.log(itemContainer);
+            // itemContainer.remove();
+        }
+
+        // Function to submit the invoice by collecting all item data
+        function submitInvoice(){
+            // Collects item details from the item containers and stores them in an array
+            let items = [];
+
+            // Selects all elements with the class 'item-container' from the document
+            let itemContainers = document.querySelectorAll(".item-container")
+            console.log(itemContainers)
+
+            // Iterates through each item container to extract item details
+            itemContainers.forEach(function(container){
+
+                console.log(container)
+
+                // Retrieves the value of the item name input field
+                let itemName =  container.querySelector(".item-name").value; 
+                // Retrieves the value of the item quantity input field
+                let itemQuantity =  container.querySelector(".item-quantity").value;
+                // Retrieves the value of the item price input field
+                let itemPrice =  container.querySelector(".item-price").value;
+                // Checks if all item details are provided before adding to the items array
+                if(itemName && itemQuantity && itemPrice){
+                    items.push({
+                        // Creates an object representing the item with its details
+                        name:itemName,
+                        quantity:itemQuantity,
+                        price: itemPrice
+                    })
+                }
+            })
+            let total = items.price * items.quantity
+            console.log(total);
+            console.log(items);
+        }
+    </script>
+  </body>
+</html>
